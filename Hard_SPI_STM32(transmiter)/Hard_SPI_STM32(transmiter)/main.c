@@ -26,7 +26,7 @@ typedef uint8_t Spi_DataBufferType;
 void Spi_Init (Spi_ConfigType* ConfigPtr);
 Std_ReturnType Spi_DeInit (void);
 Std_ReturnType Spi_WriteIB (Spi_ChannelType Channel,const Spi_DataBufferType* DataBufferPtr);
-Std_ReturnType Spi_ReadIB (Spi_DataBufferType* DataBufferPointer);
+Std_ReturnType Spi_ReadIB (Spi_ChannelType Channel,Spi_DataBufferType* DataBufferPointer);
 
 int main(void){
 	Spi_ConfigType ConfigPtr;
@@ -110,8 +110,21 @@ Std_ReturnType Spi_WriteIB (Spi_ChannelType Channel,const Spi_DataBufferType* Da
 	return E_OK;
 }
 
-Std_ReturnType Spi_ReadIB (Spi_DataBufferType* DataBufferPointer){
-	while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_RXNE) == RESET);
-	return SPI_I2S_ReceiveData(SPIx);
+Std_ReturnType Spi_ReadIB(Spi_ChannelType Channel,Spi_DataBufferType* DataBufferPointer)
+{
+	switch(Channel)
+	{
+		case 1:
+			while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
+			*DataBufferPointer = SPI_I2S_ReceiveData(SPI1);
+			break;
+		case 2:
+			while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE) == RESET);
+			*DataBufferPointer = SPI_I2S_ReceiveData(SPI2);
+			break;
+	}
+	if(DataBufferPointer == NULL){
+		return E_NOT_OK;
+	}else return E_OK;
 }
 
