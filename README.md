@@ -2,4 +2,5 @@
 ## Overview
 Communicate between STM32F103C8T6 and Arduino Uno via SPI
 ## Result
+STM32 transmit and Arduino receive
 - Hard_SPI_STM32(transmiter): https://youtu.be/HujQBx4pvaQ
