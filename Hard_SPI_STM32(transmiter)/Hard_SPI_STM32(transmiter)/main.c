@@ -6,22 +6,22 @@
 #include "Dio.h"
 #include "delay.h"
 
-#define SPIx_RCC				RCC_APB2Periph_SPI1
-#define SPIx						SPI1
+#define SPIx_RCC		RCC_APB2Periph_SPI1
+#define SPIx			SPI1
 #define SPI_GPIO_RCC		RCC_APB2Periph_GPIOA
-#define SPI_GPIO				GPIOA
+#define SPI_GPIO		GPIOA
 #define SPI_PIN_MOSI		GPIO_Pin_7
 #define SPI_PIN_MISO		GPIO_Pin_6
-#define SPI_PIN_SCK			GPIO_Pin_5
-#define SPI_PIN_SS			GPIO_Pin_4
+#define SPI_PIN_SCK		GPIO_Pin_5
+#define SPI_PIN_SS		GPIO_Pin_4
 
 typedef SPI_InitTypeDef Spi_ConfigType;
 typedef uint8_t Std_ReturnType;
 typedef uint8_t Spi_ChannelType;
 typedef uint8_t Spi_DataBufferType;
 
-#define E_OK 					(Std_ReturnType)0
-#define E_NOT_OK 				(Std_ReturnType)1
+#define E_OK 			(Std_ReturnType)0
+#define E_NOT_OK 		(Std_ReturnType)1
 
 void Spi_Init (Spi_ConfigType* ConfigPtr);
 Std_ReturnType Spi_DeInit (void);
@@ -105,9 +105,9 @@ Std_ReturnType Spi_WriteIB (Spi_ChannelType Channel,const Spi_DataBufferType* Da
 	}
     while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
     SPI_I2S_SendData(SPIx, *DataBufferPtr);
-		while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY) == SET);
-		GPIO_SetBits(GPIOA,GPIO_Pin_4);
-	return E_OK;
+    while (SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY) == SET);
+    GPIO_SetBits(GPIOA,GPIO_Pin_4);
+    return E_OK;
 }
 
 Std_ReturnType Spi_ReadIB(Spi_ChannelType Channel,Spi_DataBufferType* DataBufferPointer)
